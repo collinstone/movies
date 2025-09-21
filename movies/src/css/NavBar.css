@@ -1,0 +1,84 @@
+/* Resets and base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.navBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;  
+  padding: 1rem 2rem;
+  font-family: 'Montserrat', sans-serif;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.navBar .navbar-brand-a {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: red; /* Vibrant accent color */
+  text-decoration: none;
+}
+
+.navBar .navbar-brand-a:hover,
+.navBar .navbar-brand-a:focus {
+  color: #e94560;
+}
+
+
+.navbar-links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.nav-link {
+  color: red;
+  text-decoration: none;
+  font-size: 1rem;
+  position: relative;
+  padding: 0.5rem 0;
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover,
+.nav-link:focus {
+  color: #e94560;
+}
+
+.nav-link::after {
+  content: '';
+  display: block;
+  width: 0;
+  height: 2px;
+  background: #e94560;
+  transition: width 0.3s ease;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+.nav-link:hover::after,
+.nav-link:focus::after {
+  width: 100%;
+}
+
+/* Responsive: collapse links into a centered group on small screens */
+@media (max-width: 600px) {
+  .navBar {
+    flex-direction: column;
+    align-items: center;
+  }
+  .navBar .navbar-brand-a {
+    justify-content: center;
+    width: 100%;
+    margin: 0.5rem;
+  }
+  .navbar-links {
+    width: 100%;
+    justify-content: center;
+    margin-top: 0.5rem;
+  }
+}

@@ -1,0 +1,145 @@
+
+
+/* Flex card - responsive width using clamp */
+.movie-card {
+  position: relative;
+  display: block;
+  flex: 0 1 clamp(140px, 19vw, 220px); /* min 140px, ideal 19vw, max 220px */
+  border-radius: 8px;
+  overflow: visible; /* we allow shadow to show */
+  transition: transform 280ms ease, box-shadow 280ms ease;
+  cursor: pointer;
+  background: transparent;
+}
+
+/* subtle lift on hover */
+.movie-card:hover {
+  transform: translateY(-6px);
+  z-index: 5;
+}
+
+/* poster container keeps 2:3 poster ratio (works in modern browsers) */
+.movie-poster {
+  width: 100%;
+  height: 300px;
+  border-radius: 6px;
+  overflow: hidden;
+  background: linear-gradient(180deg, rgba(0,0,0,0.05), rgba(0,0,0,0.15));
+  aspect-ratio: 2 / 3; /* poster aspect ratio */
+  box-shadow: 0 6px 18px rgba(2,6,23,0.55);
+}
+
+/* image fills poster */
+.movie-poster img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transform-origin: center;
+  transition: transform 420ms cubic-bezier(.2,.9,.2,1);
+}
+
+/* zoom poster on hover */
+.movie-card:hover .movie-poster img {
+  transform: scale(1.06);
+}
+
+/* gradient overlay fades in from the bottom like TMDB */
+.movie-overlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0px;
+  padding: 10px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  pointer-events: none;
+  color: #fff;
+  opacity: 0;
+  transition: opacity 220ms ease;
+  background: linear-gradient(180deg, rgba(0,0,0,0) 30%, rgba(2,6,23,0.72) 100%);
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+
+/* show overlay on hover */
+.movie-card:hover .movie-overlay {
+  opacity: 1;
+}
+
+/* meta text inside overlay */
+.movie-meta {
+  pointer-events: auto; /* allow text selection or clicks inside overlay if needed */
+  padding: 6px 8px;
+}
+
+.movie-title {
+  font-size: 0.95rem;
+  line-height: 1.1;
+  margin: 0 0 4px 0;
+  color: #fff;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: calc(100% - 8px);
+}
+
+.movie-date {
+  font-size: 0.8rem;
+  margin: 0;
+  color: var(--muted);
+}
+
+/* Favorite (heart) button top-right */
+.favorite-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 6;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(16,18,24,0.6);
+  color: #fff;
+  backdrop-filter: blur(4px);
+  transition: transform 160ms ease, background 160ms ease;
+  cursor: pointer;
+  font-size: 16px;
+  box-shadow: 0 6px 12px rgba(2,6,23,0.45);
+  pointer-events: auto;
+}
+
+.favorite-btn.active {
+  background-color: #ff4d4d; /* Light red background */
+  border: none;
+}
+
+/* liked state */
+.favorite-btn.liked {
+  background: linear-gradient(135deg, #ff7a7a, #ffb86b);
+  transform: scale(1.06);
+}
+
+/* small responsive tweaks */
+@media (min-width: 640px) {
+  .movie-list { gap: 18px; padding: 20px; }
+}
+
+@media (min-width: 900px) {
+  .movie-list { gap: 20px; padding: 22px; }
+  /* wider screens: let the flex-basis clamp grow but still limit with max-width logic */
+  .movie-card { flex: 0 1 clamp(160px, 14.5vw, 240px); }
+}
+
+/* Accessibility focus style for keyboard users */
+.movie-card:focus-within,
+.favorite-btn:focus {
+  outline: 3px solid rgba(255,184,107,0.18);
+  outline-offset: 3px;
+}
