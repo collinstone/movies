@@ -1,71 +1,56 @@
-import {useState, useEffect} from "react";
+import { useState } from "react";
+import InfiniteScroll from "react-infinite-scroll-component";
+import { useMovies } from "../../../src/hooks/useMovies";  // adjust the path
 import MovieCard from "../MovieCard";
-import "../../css/Home.css"
-import { getPopularmovies, searchMovies } from "../../services/api";
+import "../../css/Home.css";
 
 function Home() {
+  const [searchInput, setSearchInput] = useState("");
+  const { movies, loading, error, hasMore, loadMore, doSearch } = useMovies();
 
-    const [searchQuery, setSearchQuery] = useState("");
-    const [movies, setMovies] = useState([]);
-    const [error, setError] = useState(null);
-    const [loading, setloading] = useState(true);
+  const handleSearch = (e) => {
+    e.preventDefault();
+    doSearch(searchInput);
+  };
 
-    useEffect( () => {
-        const loadPopularMovies = async () => {
-            try{
-                const popularMovies = await getPopularmovies();
-                setMovies(popularMovies)
-                setError(null);
-            } catch (err) {
-                console.log(err)
-                setError("Failed to load movies...")
-            } finally {
-                setloading(false);
-            }
-            
+  return (
+    <div className="home">
+      <form onSubmit={handleSearch} className="search-form">
+        <input
+          type="text"
+          placeholder="Search for Movies..."
+          className="search-input"
+          value={searchInput}
+          onChange={(e) => setSearchInput(e.target.value)}
+        />
+        <button type="submit" className="search-button">
+          Search
+        </button>
+      </form>
+
+      {error && <p>Error: {error.toString()}</p>}
+
+      <InfiniteScroll
+        dataLength={movies.length}
+        next={loadMore}
+        hasMore={hasMore}
+        loader={<h4>Loading…</h4>}
+        endMessage={
+          <p style={{ textAlign: "center", marginTop: "1rem" }}>
+            <b>You have seen all the movies!</b>
+          </p>
         }
-        loadPopularMovies();
-    }, []);
-    
-    const handleSearch = async (e) => {
-        e.preventDefault();
-        if(!searchQuery.trim()) return
-        if(loading) return
-        setloading(true);
-
-        try{
-            const searchResults = await searchMovies(searchQuery);
-            setMovies(searchResults);
-            setError(null);
-            } catch(err){
-                console.log(err);
-                setError("failed to seach movies...");
-            } finally {
-                setloading(false);
-            }
-    };
-
-    return(
-        <div className = "home">
-            <form onSubmit = {handleSearch} className = "search-form">
-                <input type = "text" placeholder="Search for Movies..."
-                className = "search-input" value = {searchQuery}
-                onChange = {(e) => setSearchQuery(e.target.value)}
-                />
-                <button type = "submit" className = "search-button">
-                    Search
-                </button>
-            </form>
-
-            {error && <div className = "error-message"> {error} </div>}
-
-            {loading ? (<div className = "loading"> Loading...</div>) : 
-            ( <div className = "movies-grid"> {movies.map((movie) => (
-                <MovieCard movie = {movie} key = {movie.id}/>
-            ))} </div> )}
+      >
+        <div className="movies-grid">
+          {movies.map((movie) => (
+            <MovieCard movie={movie} key={movie.id} />
+          ))}
         </div>
-    );
-}
+      </InfiniteScroll>
 
+      {loading && movies.length === 0 && <h4>Loading initial movies...</h4>}
+    </div>
+  );
+}
 
 export default Home;

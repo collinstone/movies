@@ -115,6 +115,7 @@
   pointer-events: auto;
 }
 
+
 .favorite-btn.active {
   background-color: #ff4d4d; /* Light red background */
   border: none;
