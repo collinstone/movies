@@ -25,7 +25,7 @@
   border-radius: 6px;
   overflow: hidden;
   background: linear-gradient(180deg, rgba(0,0,0,0.05), rgba(0,0,0,0.15));
-  aspect-ratio: 2 / 3; /* poster aspect ratio */
+  aspect-ratio: calc(2 / 3); /* poster aspect ratio */
   box-shadow: 0 6px 18px rgba(2,6,23,0.55);
 }
 
