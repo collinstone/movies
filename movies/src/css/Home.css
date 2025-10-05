@@ -66,12 +66,13 @@
 
 .movies-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(220px, minmax(0, 1fr)));
   gap: 1.5rem;
   justify-items: center;
   padding: 1rem;
   width: 100%;
   max-width: 1200px;
+  box-sizing: border-box;
 }
 
 
@@ -100,5 +101,34 @@
   .search-button {
     width: 100%;
     margin: 0;  
+  }
+}
+
+/* ≤ 563px: 1 column */
+@media (max-width: 563px) {
+  .movies-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* 564px – 767px: 2 columns */
+@media (min-width: 564px) and (max-width: 767px) {
+  .movies-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* 768px – 998px: 3 columns */
+@media (min-width: 768px) and (max-width: 998px) {
+  .movies-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Above 998px: flexible / default layout */
+@media (min-width: 999px) {
+  .movies-grid {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    /* or whatever fits your design */
   }
 }
