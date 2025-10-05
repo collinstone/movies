@@ -48,6 +48,7 @@ function MovieCard ({movie}) {
                     href="https://www.amazon.com/Amazon-Video/b?ie=UTF8&node=2858778011&linkCode=ll2&tag=austincolli04-20&linkId=f256cd6a725abfcae03cb777f4ece6bb&language=en_US&ref_=as_li_ss_tl"
                     target="_blank"
                     rel="noopener noreferrer"
+                    class="font-bold"
                     >
                     Watch it now on Amazon 🎬
                     </a>
