@@ -66,15 +66,17 @@
 
 .movies-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, minmax(0, 1fr)));
-  gap: 1.5rem;
+  gap: 1rem;
   justify-items: center;
   padding: 1rem;
   width: 100%;
   max-width: 1200px;
   box-sizing: border-box;
+  overflow-x: hidden;
+  
+  /* Use auto-fit + minmax for fluid responsiveness */
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
 }
-
 
 
 @media (min-width: 768px) {
@@ -104,19 +106,14 @@
   }
 }
 
-/* ≤ 563px: 1 column */
-@media (max-width: 563px) {
-  .movies-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
 /* 564px – 767px: 2 columns */
-@media (min-width: 564px) and (max-width: 767px) {
+@media (min-width: 362px) and (max-width: 767px) {
   .movies-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+
 
 /* 768px – 998px: 3 columns */
 @media (min-width: 768px) and (max-width: 998px) {
@@ -132,3 +129,21 @@
     /* or whatever fits your design */
   }
 }
+
+
+/* 362px–471px: two equal columns, cards shrink to fit */
+@media (min-width: 362px) and (max-width: 471px) {
+  .movies-grid {
+    grid-template-columns: repeat(2, 1fr);
+    width: 100%;
+    max-width: 100%;   /* remove the 316px cap */
+    margin: 0 auto;
+  }
+
+  .movie-card {
+    flex: none;        /* disable flex-basis sizing */
+    width: 100%;       /* let the grid control sizing */
+  }
+}
+
+
